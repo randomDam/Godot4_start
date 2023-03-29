@@ -1,0 +1,62 @@
+[gd_resource type="ShaderMaterial" load_steps=7 format=3]
+
+[ext_resource type="Texture" uid="uid://df764tonwhm7e" path="res://Tree/Main_Bark_Color.png" id="1"]
+[ext_resource type="Texture" uid="uid://bwjy3o184cdfb" path="res://Tree/Main_Bark_Normal.png" id="2"]
+
+[sub_resource type="VisualShaderNodeTexture" id=3]
+texture = ExtResource( 1 )
+
+[sub_resource type="VisualShaderNodeTexture" id=4]
+texture = ExtResource( 2 )
+
+[sub_resource type="VisualShaderNodeScalarUniform" id=7]
+uniform_name = "ScalarUniform"
+
+[sub_resource type="VisualShader" id=5]
+code = "shader_type spatial;
+render_mode specular_schlick_ggx;
+
+uniform sampler2D tex_frg_2;
+uniform sampler2D tex_frg_3;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:2
+	vec4 tex_frg_2_read = texture(tex_frg_2, UV.xy);
+	vec3 n_out2p0 = tex_frg_2_read.rgb;
+	float n_out2p1 = tex_frg_2_read.a;
+
+// Texture:3
+	vec4 tex_frg_3_read = texture(tex_frg_3, UV.xy);
+	vec3 n_out3p0 = tex_frg_3_read.rgb;
+	float n_out3p1 = tex_frg_3_read.a;
+
+// Output:0
+	ALBEDO = n_out2p0;
+	NORMAL = n_out3p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -277, -21 )
+nodes/fragment/0/position = Vector2( 840, 100 )
+nodes/fragment/2/node = SubResource( 3 )
+nodes/fragment/2/position = Vector2( 100, 0 )
+nodes/fragment/3/node = SubResource( 4 )
+nodes/fragment/3/position = Vector2( -100, 60 )
+nodes/fragment/4/node = SubResource( 7 )
+nodes/fragment/4/position = Vector2( 80, 300 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 3, 0, 0, 7 )
+
+[resource]
+shader = SubResource( 5 )
